@@ -5,13 +5,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+//<editor-fold desc="Description">
 @Controller
+//</editor-fold>
 public class HelloController {
 
-    @GetMapping("/hello")
-    public String Hello(@RequestParam(name = "name") String name , Model model){
+    @GetMapping("/")
+    public String Index(){
 
-        model.addAttribute("name",name);
-        return "hello";
+        return "index";
     }
 }
