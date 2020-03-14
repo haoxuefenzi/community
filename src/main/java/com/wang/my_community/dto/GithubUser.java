@@ -1,16 +1,20 @@
 package com.wang.my_community.dto;
 
 public class GithubUser {
-    private String name;
+    private String login;
     private int id;
-    private String bio;
+    private String node_id;
 
-    public String getName() {
-        return name;
+
+    public GithubUser() {
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public int getId() {
@@ -21,11 +25,17 @@ public class GithubUser {
         this.id = id;
     }
 
-    public String getBio() {
-        return bio;
+    public String getNode_id() {
+        return node_id;
     }
 
-    public void setBio(String bio) {
-        this.bio = bio;
+    public void setNode_id(String node_id) {
+        this.node_id = node_id;
+    }
+
+    public GithubUser(String login, int id, String node_id) {
+        this.login = login;
+        this.id = id;
+        this.node_id = node_id;
     }
 }

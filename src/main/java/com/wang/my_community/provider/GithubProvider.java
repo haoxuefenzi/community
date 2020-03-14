@@ -40,7 +40,6 @@ public class GithubProvider {
             String string = response.body().string();
             return JSON.parseObject(string,GithubUser.class);
         } catch (IOException e) {
-            e.printStackTrace();
         }
         return null;
     }
