@@ -3,7 +3,6 @@ package com.wang.my_community.controller;
 import com.wang.my_community.mapper.UserMapper;
 import com.wang.my_community.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -24,7 +23,7 @@ public class IndexController {
                 String token = cookie.getValue();
                 User user = userMapper.findByToken(token);
                 if (user != null) {
-                    request.getSession().setAttribute("user",user);
+                    request.getSession().setAttribute("user1",user);
                 }
                 break;
             }

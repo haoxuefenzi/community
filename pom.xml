@@ -62,6 +62,18 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.57</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>5.2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -70,7 +82,22 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>5.2.4</version>
+
+                <configuration>
+                    <url>jdbc:mysql://localhost:3306/mybatis?serverTimezone=Asia/Shanghai</url>
+                    <user>root</user>
+                    <password>123456</password>
+                    <driver>com.mysql.cj.jdbc.Driver</driver>
+                    <schemas>mybatis</schemas>
+                </configuration>
+            </plugin>
         </plugins>
+
+
     </build>
 
 </project>

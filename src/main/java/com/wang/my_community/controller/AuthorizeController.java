@@ -1,14 +1,11 @@
 package com.wang.my_community.controller;
 
 import com.wang.my_community.dto.AccessTokenDto;
-import com.wang.my_community.dto.GithubUser;
+import com.wang.my_community.dto.User;
 import com.wang.my_community.mapper.UserMapper;
-import com.wang.my_community.model.User;
 import com.wang.my_community.provider.GithubProvider;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,8 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
-@Configuration
-//@MapperScan("com.wang.my_community.mapper.UserMapper")
+
 public class AuthorizeController {
 
     @Autowired
@@ -48,18 +44,18 @@ public class AuthorizeController {
         accessTokenDto.setRedirect_uri(clientUri);
         accessTokenDto.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDto);
-        GithubUser githubUser = githubProvider.getUser(accessToken);
-        System.out.println(githubUser);
+        User githubUser = githubProvider.getUser(accessToken);
         if(githubUser!=null){
 
-            User user = new User();
+            com.wang.my_community.model.User user = new com.wang.my_community.model.User();
             user.setName(githubUser.getLogin());
             String token = UUID.randomUUID().toString();
             user.setToken(token);
+            user.setNodeId(githubUser.getNode_id());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-            userMapper.insert(user);
+            userMapper.create(user);
             request.getSession().setAttribute("user",githubUser);
 
             response.addCookie(new Cookie("token",token));

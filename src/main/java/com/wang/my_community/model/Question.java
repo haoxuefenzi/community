@@ -7,12 +7,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
-    private String name;
+public class Question {
     private Integer id;
-    private String accountId;
-    private String token;
+    private String title;
+    private String description;
     private Long gmtCreate;
     private Long gmtModified;
-    private String nodeId;
+    private Integer creator;
+    private Integer commentCount;
+    private Integer viewCount;
+    private Integer likeCount;
+    private String tag;
 }
