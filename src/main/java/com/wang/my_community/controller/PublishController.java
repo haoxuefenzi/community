@@ -24,10 +24,10 @@ public class PublishController {
     }
 
     @PostMapping("/publish")
-    public String doPublish(
-            @RequestParam("title") String title,
-            @RequestParam("description") String description,
-            @RequestParam("tag") String tag,
+    public String doPublish(//???????????????????????????????????????????????
+            @RequestParam(value = "title",required = false) String title,
+            @RequestParam(value = "description",required = false) String description,
+            @RequestParam(value = "tag",required = false) String tag,
             HttpServletRequest request, Model model){
 
         model.addAttribute("title",title);
@@ -51,12 +51,25 @@ public class PublishController {
             return "publish";
         }
         Question question = new Question();
+
         question.setTitle(title);
         question.setTag(tag);
         question.setDescription(description);
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
         question.setCreator(user.getId());
+
+
+        if(question.getViewCount()==null){
+            question.setViewCount(0);
+        }
+        if(question.getLikeCount()==null){
+            question.setLikeCount(0);
+        }
+        if(question.getCommentCount()==null){
+            question.setCommentCount(0);
+        }
+
         questionMapper.create(question);
 
         return "redirect:/";

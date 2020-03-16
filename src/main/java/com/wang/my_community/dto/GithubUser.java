@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class GithubUser {
     private String login;
     private int id;
-    private String node_id;
-    private String avatar_url;
+    private String nodeId;
+    private String avatarUrl;
 
 }
