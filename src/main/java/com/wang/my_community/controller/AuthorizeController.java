@@ -1,7 +1,7 @@
 package com.wang.my_community.controller;
 
 import com.wang.my_community.dto.AccessTokenDto;
-import com.wang.my_community.dto.User;
+import com.wang.my_community.dto.GithubUser;
 import com.wang.my_community.mapper.UserMapper;
 import com.wang.my_community.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +44,14 @@ public class AuthorizeController {
         accessTokenDto.setRedirect_uri(clientUri);
         accessTokenDto.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDto);
-        User githubUser = githubProvider.getUser(accessToken);
+        GithubUser githubUser = githubProvider.getUser(accessToken);
         if(githubUser!=null){
 
             com.wang.my_community.model.User user = new com.wang.my_community.model.User();
             user.setName(githubUser.getLogin());
             String token = UUID.randomUUID().toString();
             user.setToken(token);
+            user.setAvatarUrl(githubUser.getAvatar_url());
             user.setNodeId(githubUser.getNode_id());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
