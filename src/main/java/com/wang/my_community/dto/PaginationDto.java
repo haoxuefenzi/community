@@ -25,11 +25,11 @@ public class PaginationDto {
             totalPage = totalCount/size + 1;
         }
 
-        if (page < 1){
-            page = 1;
-        }
         if (page > totalPage){
             page = totalPage;
+        }//顺序不能修改，否则如果page=0,会被赋值为1
+        if (page < 1){
+            page = 1;
         }
         this.page = page;
         pages.add(page);

@@ -3,7 +3,9 @@ package com.wang.my_community.controller;
 import com.wang.my_community.dto.AccessTokenDto;
 import com.wang.my_community.dto.GithubUser;
 import com.wang.my_community.mapper.UserMapper;
+import com.wang.my_community.model.User;
 import com.wang.my_community.provider.GithubProvider;
+import com.wang.my_community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,8 @@ public class AuthorizeController {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
@@ -45,24 +49,34 @@ public class AuthorizeController {
         accessTokenDto.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDto);
         GithubUser githubUser = githubProvider.getUser(accessToken);
-        if(githubUser!=null){
+        if (githubUser != null) {
 
-            com.wang.my_community.model.User user = new com.wang.my_community.model.User();
-            user.setName(githubUser.getLogin());
+            User user = new User();
+            user.setName(githubUser.getName());
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             user.setAvatarUrl(githubUser.getAvatarUrl());
             user.setNodeId(githubUser.getNodeId());
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
-            userMapper.create(user);
-            request.getSession().setAttribute("user",githubUser);
 
-            response.addCookie(new Cookie("token",token));
+            userService.createOrUpdate(user);
+
+            request.getSession().setAttribute("user1", githubUser);
+            response.addCookie(new Cookie("token", token));
             return "redirect:/";
-        }else {
+        } else {
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response) {
+        request.getSession().removeAttribute("user");
+        request.getSession().removeAttribute("user1");
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }

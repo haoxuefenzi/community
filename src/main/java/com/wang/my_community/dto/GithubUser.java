@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GithubUser {
-    private String login;
+    private String name;
     private int id;
     private String nodeId;
     private String avatarUrl;

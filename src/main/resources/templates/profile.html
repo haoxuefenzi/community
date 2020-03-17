@@ -12,7 +12,7 @@
 </head>
 <body>
 <div th:replace="navigation :: nav"></div>
-<div class="container-fluid main profile">
+<div class="container-fluid main profile" style="margin-left: 60px">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
 
@@ -26,7 +26,9 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${questionDto.title}"></h4>
+                    <h4 class="media-heading">
+                        <a th:href="@{'/question/'+${questionDto.id}}" th:text="${questionDto.title}"></a>
+                    </h4>
                     <span th:text="${questionDto.description}"></span> <br>
                     <span class="text-desc"> <span th:text="${questionDto.commentCount}"></span>个回复 • <span th:text="${questionDto.viewCount}"></span> 次浏览 • <span th:text="${#dates.format(questionDto.gmtCreate,'yyyy-MM-dd HH-mm')}"></span></span>
                 </div>
@@ -35,28 +37,28 @@
                 <ul class="pagination">
                     <!--                     th:if="paginationDto.showFirstpage"-->
                     <li>
-                        <a th:href="@{/(page=1)}" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${section}(page=${1})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>
                     </li>
                     <!--                     th:if="paginationDto.showPrevious"-->
                     <li>
-                        <a th:href="@{/(page=${paginationDto.page-1})}" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${section}(page=${paginationDto.page-1})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
                     <li th:each="page : ${paginationDto.pages}" th:class="${paginationDto.page==page}?'active':''">
-                        <a th:href="@{/(page=${page})}" th:text="${page}"></a>
+                        <a th:href="@{'/profile/'+${section}(page=${page})}" th:text="${page}"></a>
                     </li>
                     <!--                    th:if="paginationDto.showNext"-->
                     <li>
-                        <a th:href="@{/(page=${paginationDto.page+1})}" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${section}(page=${paginationDto.page+1})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
                     <!--                    th:if="paginationDto.showEndPage"-->
                     <li>
-                        <a th:href="@{/(page=${paginationDto.totalPage})}" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${section}(page=${paginationDto.totalPage})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>
@@ -66,8 +68,8 @@
 
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
             <div class="list-group section">
-                <a href="/profile/questions" th:class="${sectionName=='questions'}?'active list-group-item':'list-group-item'">我的问题</a>
-                <a href="/profile/replies" th:class="${sectionName=='replies'}?'active list-group-item':'list-group-item'">
+                <a href="/profile/questions" th:class="${section=='questions'}?'active list-group-item':'list-group-item'">我的问题</a>
+                <a href="/profile/replies" th:class="${section=='replies'}?'active list-group-item':'list-group-item'">
                     最新回复 <span class="badge">10</span>
                 </a>
                 <a href="#" class="list-group-item">Morbi leo risus</a>

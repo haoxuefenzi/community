@@ -1,10 +1,7 @@
 package com.wang.my_community.mapper;
 
 import com.wang.my_community.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -18,4 +15,10 @@ public interface UserMapper {
 
     @Select("select * from community where id=#{id}")
     User findById(@Param("id") Integer id);
+
+    @Select("select * from community where account_id=#{accountId}")
+    User findByAccountId(@Param("accountId") String accountId);
+
+    @Update({"update community set name=#{name},avatar_url=#{avatarUrl},token=#{token},gmt_modified=#{gmtModified} where account_id=#{accountId}"})
+    void Update(User user);
 }

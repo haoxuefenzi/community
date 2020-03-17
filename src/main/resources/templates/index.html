@@ -12,7 +12,7 @@
 </head>
 <body>
 <div th:replace="navigation :: nav"></div>
-<div class="container-fluid main">
+<div class="container-fluid main" style="margin-left: 60px">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
 
@@ -25,7 +25,9 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${questionDto.title}"></h4>
+                    <h4 class="media-heading">
+                        <a th:href="@{'/question/'+${questionDto.id}}" th:text="${questionDto.title}"></a>
+                    </h4>
                     <span th:text="${questionDto.description}"></span> <br>
                     <span class="text-desc"> <span th:text="${questionDto.commentCount}"></span>个回复 • <span th:text="${questionDto.viewCount}"></span> 次浏览 • <span th:text="${#dates.format(questionDto.gmtCreate,'yyyy-MM-dd HH-mm')}"></span></span>
                 </div>
