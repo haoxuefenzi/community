@@ -2,10 +2,13 @@ package com.wang.my_community.service;
 
 import com.wang.my_community.mapper.UserMapper;
 import com.wang.my_community.model.User;
+import com.wang.my_community.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
-@Controller
+import java.util.List;
+
+@Service
 public class UserService {
 
     @Autowired
@@ -14,18 +17,26 @@ public class UserService {
 
     public void createOrUpdate(User user) {
 
-        User dbUser = userMapper.findByAccountId(user.getAccountId());
+        UserExample UserExample = new UserExample();
+        UserExample.createCriteria()
+                .andAccountIdEqualTo(user.getAccountId());
+        List<User> dbUsers = userMapper.selectByExample(UserExample);
 
-        if (dbUser == null) {
+        if (dbUsers.size()==0) {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-            userMapper.create(user);
+            userMapper.insert(user);
         } else {
-            dbUser.setGmtModified(System.currentTimeMillis());
-            dbUser.setAvatarUrl(user.getAvatarUrl());
-            dbUser.setToken(user.getToken());
-            dbUser.setName(user.getName());
-            userMapper.Update(dbUser);
+            User dbUser = dbUsers.get(0);
+            User updateUser = new User();
+            updateUser.setGmtModified(System.currentTimeMillis());
+            updateUser.setAvatarUrl(user.getAvatarUrl());
+            updateUser.setToken(user.getToken());
+            updateUser.setName(user.getName());
+            UserExample example = new UserExample();
+            example.createCriteria()
+                    .andIdEqualTo(dbUser.getId());
+            userMapper.updateByExampleSelective(updateUser, example);
         }
 
     }

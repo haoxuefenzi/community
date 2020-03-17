@@ -1,12 +1,15 @@
 package com.wang.my_community.controller;
 
+import com.wang.my_community.dto.QuestionDto;
 import com.wang.my_community.model.User;
 import com.wang.my_community.mapper.QuestionMapper;
 import com.wang.my_community.model.Question;
+import com.wang.my_community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,6 +20,21 @@ public class PublishController {
 
     @Autowired
     private QuestionMapper questionMapper;
+    @Autowired
+    private QuestionService questionService;
+
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable("id") Integer id,
+                       Model model){
+        QuestionDto questionDto = questionService.getById(id);
+
+        model.addAttribute("title",questionDto.getTitle());
+        model.addAttribute("tag",questionDto.getTag());
+        model.addAttribute("description",questionDto.getDescription());
+        model.addAttribute("id",questionDto.getId());
+
+        return "publish";
+    }
 
     @GetMapping("/publish")
     public String publish(){
@@ -28,6 +46,7 @@ public class PublishController {
             @RequestParam(value = "title",required = false) String title,
             @RequestParam(value = "description",required = false) String description,
             @RequestParam(value = "tag",required = false) String tag,
+            @RequestParam(value = "id",required = false) Integer id,
             HttpServletRequest request, Model model){
 
         model.addAttribute("title",title);
@@ -55,11 +74,8 @@ public class PublishController {
         question.setTitle(title);
         question.setTag(tag);
         question.setDescription(description);
-        question.setGmtCreate(System.currentTimeMillis());
-        question.setGmtModified(question.getGmtCreate());
         question.setCreator(user.getId());
-
-
+        question.setId(id);
         if(question.getViewCount()==null){
             question.setViewCount(0);
         }
@@ -70,7 +86,7 @@ public class PublishController {
             question.setCommentCount(0);
         }
 
-        questionMapper.create(question);
+        questionService.createOrUpdate(question);
 
         return "redirect:/";
     }

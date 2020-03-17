@@ -1,9 +1,6 @@
 package com.wang.my_community.controller;
 
 import com.wang.my_community.dto.QuestionDto;
-import com.wang.my_community.mapper.QuestionMapper;
-import com.wang.my_community.mapper.UserMapper;
-import com.wang.my_community.model.User;
 import com.wang.my_community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
