@@ -3,6 +3,9 @@ package com.wang.my_community.service;
 
 import com.wang.my_community.dto.PaginationDto;
 import com.wang.my_community.dto.QuestionDto;
+import com.wang.my_community.excption.CustomizeErrorCode;
+import com.wang.my_community.excption.CustomizeException;
+import com.wang.my_community.mapper.QuestionExtMapper;
 import com.wang.my_community.mapper.QuestionMapper;
 import com.wang.my_community.mapper.UserMapper;
 import com.wang.my_community.model.Question;
@@ -23,6 +26,8 @@ public class QuestionService {
     private QuestionMapper questionMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     public PaginationDto list(Integer page, Integer size) {
 
@@ -75,6 +80,9 @@ public class QuestionService {
     public QuestionDto getById(Integer id) {
 
         Question question = questionMapper.selectByPrimaryKey(id);
+        if (question==null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDto questionDto = new QuestionDto();
         BeanUtils.copyProperties(question,questionDto);
         User user = userMapper.selectByPrimaryKey(question.getCreator());
@@ -97,7 +105,18 @@ public class QuestionService {
             updateQuestion.setGmtModified(System.currentTimeMillis());
             QuestionExample example = new QuestionExample();
             example.createCriteria().andCreatorEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion, example);
+            int i = questionMapper.updateByExampleSelective(updateQuestion, example);
+            if (i==0){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
+    }
+
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
+
     }
 }

@@ -6,6 +6,7 @@
     <!-- 数据库驱动:选择你的本地硬盘上面的数据库驱动包-->
     <classPathEntry  location="D:\Users\35072\Downloads\apache-maven-3.6.3-bin\apache-maven-3.6.3\maven-repo\mysql\mysql-connector-java\5.1.47\mysql-connector-java-5.1.47.jar"/>
     <context id="DB2Tables"  targetRuntime="MyBatis3">
+        <property name="mergeable" value="false"></property>
         <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
         <!--数据库链接URL，用户名、密码 -->
         <commentGenerator>
@@ -39,6 +40,6 @@
 <!--        enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"-->
         <table tableName="community" domainObjectName="User"></table>
         <table tableName="question" domainObjectName="Question"></table>
-
+<!--        写个catalog 防止生成重复代码-->
     </context>
 </generatorConfiguration>
