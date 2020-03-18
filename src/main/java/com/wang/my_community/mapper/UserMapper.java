@@ -5,15 +5,13 @@ import com.wang.my_community.model.UserExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface UserMapper {
     long countByExample(UserExample example);
 
     int deleteByExample(UserExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(User record);
 
@@ -23,7 +21,7 @@ public interface UserMapper {
 
     List<User> selectByExample(UserExample example);
 
-    User selectByPrimaryKey(Integer id);
+    User selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
 

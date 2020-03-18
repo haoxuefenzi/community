@@ -1,8 +1,8 @@
 package com.wang.my_community.controller;
 
 import com.wang.my_community.dto.QuestionDto;
-import com.wang.my_community.model.User;
 import com.wang.my_community.mapper.QuestionMapper;
+import com.wang.my_community.model.User;
 import com.wang.my_community.model.Question;
 import com.wang.my_community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class PublishController {
     private QuestionService questionService;
 
     @GetMapping("/publish/{id}")
-    public String edit(@PathVariable("id") Integer id,
+    public String edit(@PathVariable("id") Long id,
                        Model model){
         QuestionDto questionDto = questionService.getById(id);
 
@@ -46,7 +46,7 @@ public class PublishController {
             @RequestParam(value = "title",required = false) String title,
             @RequestParam(value = "description",required = false) String description,
             @RequestParam(value = "tag",required = false) String tag,
-            @RequestParam(value = "id",required = false) Integer id,
+            @RequestParam(value = "id",required = false) Long id,
             HttpServletRequest request, Model model){
 
         model.addAttribute("title",title);
