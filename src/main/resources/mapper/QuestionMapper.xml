@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.wang.my_community.model.Question">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="BIGINT" property="gmtModified" />
     <result column="creator" jdbcType="BIGINT" property="creator" />
@@ -11,9 +12,6 @@
     <result column="view_count" jdbcType="INTEGER" property="viewCount" />
     <result column="like_count" jdbcType="INTEGER" property="likeCount" />
     <result column="tag" jdbcType="VARCHAR" property="tag" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.wang.my_community.model.Question">
-    <result column="description" jdbcType="LONGVARCHAR" property="description" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,28 +72,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, title, gmt_create, gmt_modified, creator, comment_count, view_count, like_count, 
-    tag
+    id, title, description, gmt_create, gmt_modified, creator, comment_count, view_count, 
+    like_count, tag
   </sql>
-  <sql id="Blob_Column_List">
-    description
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.wang.my_community.model.QuestionExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from question
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="com.wang.my_community.model.QuestionExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -110,11 +89,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from question
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -129,14 +106,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.wang.my_community.model.Question">
-    insert into question (id, title, gmt_create, 
-      gmt_modified, creator, comment_count, 
-      view_count, like_count, tag, 
-      description)
-    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=BIGINT}, 
-      #{gmtModified,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, #{commentCount,jdbcType=INTEGER}, 
-      #{viewCount,jdbcType=INTEGER}, #{likeCount,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR}, 
-      #{description,jdbcType=LONGVARCHAR})
+    insert into question (id, title, description, 
+      gmt_create, gmt_modified, creator, 
+      comment_count, view_count, like_count, 
+      tag)
+    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=BIGINT}, #{gmtModified,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, 
+      #{commentCount,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}, #{likeCount,jdbcType=INTEGER}, 
+      #{tag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wang.my_community.model.Question">
     insert into question
@@ -146,6 +123,9 @@
       </if>
       <if test="title != null">
         title,
+      </if>
+      <if test="description != null">
+        description,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -168,9 +148,6 @@
       <if test="tag != null">
         tag,
       </if>
-      <if test="description != null">
-        description,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -178,6 +155,9 @@
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=BIGINT},
@@ -200,9 +180,6 @@
       <if test="tag != null">
         #{tag,jdbcType=VARCHAR},
       </if>
-      <if test="description != null">
-        #{description,jdbcType=LONGVARCHAR},
-      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.wang.my_community.model.QuestionExample" resultType="java.lang.Long">
@@ -219,6 +196,9 @@
       </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
       </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=BIGINT},
@@ -241,26 +221,7 @@
       <if test="record.tag != null">
         tag = #{record.tag,jdbcType=VARCHAR},
       </if>
-      <if test="record.description != null">
-        description = #{record.description,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update question
-    set id = #{record.id,jdbcType=BIGINT},
-      title = #{record.title,jdbcType=VARCHAR},
-      gmt_create = #{record.gmtCreate,jdbcType=BIGINT},
-      gmt_modified = #{record.gmtModified,jdbcType=BIGINT},
-      creator = #{record.creator,jdbcType=BIGINT},
-      comment_count = #{record.commentCount,jdbcType=INTEGER},
-      view_count = #{record.viewCount,jdbcType=INTEGER},
-      like_count = #{record.likeCount,jdbcType=INTEGER},
-      tag = #{record.tag,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -269,6 +230,7 @@
     update question
     set id = #{record.id,jdbcType=BIGINT},
       title = #{record.title,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
       gmt_create = #{record.gmtCreate,jdbcType=BIGINT},
       gmt_modified = #{record.gmtModified,jdbcType=BIGINT},
       creator = #{record.creator,jdbcType=BIGINT},
@@ -285,6 +247,9 @@
     <set>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=BIGINT},
@@ -307,28 +272,13 @@
       <if test="tag != null">
         tag = #{tag,jdbcType=VARCHAR},
       </if>
-      <if test="description != null">
-        description = #{description,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wang.my_community.model.Question">
-    update question
-    set title = #{title,jdbcType=VARCHAR},
-      gmt_create = #{gmtCreate,jdbcType=BIGINT},
-      gmt_modified = #{gmtModified,jdbcType=BIGINT},
-      creator = #{creator,jdbcType=BIGINT},
-      comment_count = #{commentCount,jdbcType=INTEGER},
-      view_count = #{viewCount,jdbcType=INTEGER},
-      like_count = #{likeCount,jdbcType=INTEGER},
-      tag = #{tag,jdbcType=VARCHAR},
-      description = #{description,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wang.my_community.model.Question">
     update question
     set title = #{title,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=BIGINT},
       gmt_modified = #{gmtModified,jdbcType=BIGINT},
       creator = #{creator,jdbcType=BIGINT},
@@ -338,22 +288,6 @@
       tag = #{tag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.wang.my_community.model.QuestionExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from question
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExampleWithRowbounds" parameterType="com.wang.my_community.model.QuestionExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

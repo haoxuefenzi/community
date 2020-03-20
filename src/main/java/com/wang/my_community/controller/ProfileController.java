@@ -21,7 +21,7 @@ public class ProfileController {
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable("action") String action,
                           @RequestParam(value = "page",defaultValue = "1") Integer page,
-                          @RequestParam(value = "size",defaultValue = "3") Integer size,
+                          @RequestParam(value = "size",defaultValue = "5") Integer size,
                           HttpServletRequest request,
                           Model model){
 
@@ -29,8 +29,6 @@ public class ProfileController {
         if (user==null){
             return "redirect:/";
         }
-
-
 
         if("questions".equals(action)) {
             model.addAttribute("section", "questions");

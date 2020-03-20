@@ -17,10 +17,6 @@ public interface QuestionMapper {
 
     int insertSelective(Question record);
 
-    List<Question> selectByExampleWithBLOBsWithRowbounds(QuestionExample example, RowBounds rowBounds);
-
-    List<Question> selectByExampleWithBLOBs(QuestionExample example);
-
     List<Question> selectByExampleWithRowbounds(QuestionExample example, RowBounds rowBounds);
 
     List<Question> selectByExample(QuestionExample example);
@@ -29,13 +25,9 @@ public interface QuestionMapper {
 
     int updateByExampleSelective(@Param("record") Question record, @Param("example") QuestionExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") Question record, @Param("example") QuestionExample example);
-
     int updateByExample(@Param("record") Question record, @Param("example") QuestionExample example);
 
     int updateByPrimaryKeySelective(Question record);
-
-    int updateByPrimaryKeyWithBLOBs(Question record);
 
     int updateByPrimaryKey(Question record);
 }

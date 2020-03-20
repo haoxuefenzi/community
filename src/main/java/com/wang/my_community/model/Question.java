@@ -5,6 +5,8 @@ public class Question {
 
     private String title;
 
+    private String description;
+
     private Long gmtCreate;
 
     private Long gmtModified;
@@ -18,8 +20,6 @@ public class Question {
     private Integer likeCount;
 
     private String tag;
-
-    private String description;
 
     public Long getId() {
         return id;
@@ -35,6 +35,14 @@ public class Question {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
     }
 
     public Long getGmtCreate() {
@@ -91,13 +99,5 @@ public class Question {
 
     public void setTag(String tag) {
         this.tag = tag == null ? null : tag.trim();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
     }
 }

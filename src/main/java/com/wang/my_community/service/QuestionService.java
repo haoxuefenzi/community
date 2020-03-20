@@ -37,7 +37,9 @@ public class QuestionService {
         paginationDto.setPagination(totalCount, page, size);
 
         Integer offset = size * (page - 1);
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
+        QuestionExample example = new QuestionExample();
+        example.setOrderByClause("gmt_create desc");
+        List<Question> questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
 
         List<QuestionDto> questionDtos = new ArrayList<>();
 

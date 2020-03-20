@@ -36,9 +36,13 @@
 
                         </ul>
                     </li>
-                    <li th:if="${(session.user==null)&&(session.user1==null)}"><a href="https://github.com/login/oauth/authorize?client_id=a40fc1f721f375da254f&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登陆</a></li>
+                    <li th:if="${(session.user==null)&&(session.user1==null)}">
+                        <a href="https://github.com/login/oauth/authorize?client_id=a40fc1f721f375da254f&redirect_uri=http://localhost:8080/callback&scope=user&state=1">
+                            登陆</a>
+                    </li>
                 </ul>
             </div>
+
         </div>
     </nav>
 </div>
