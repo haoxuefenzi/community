@@ -42,6 +42,45 @@ function comment2target(targetId,type,content) {
     });
 }
 
+function like(e) {
+    var id = e.getAttribute("data-id")
+
+    if (e.getAttribute("msg")==1){
+       $.ajax({
+           type: "POST",
+           contentType: "application/json",
+           url: "/comment",
+           data: JSON.stringify({
+               "id": id,
+               "msg":0
+           }),
+           success: function (response) {
+               var c = response.t
+               $("#count").html(c)
+           },
+           dataType: "json"
+       });
+        e.setAttribute("msg",0)
+        e.classList.remove("active");
+   }else {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/comment",
+        data: JSON.stringify({
+            "id": id,
+            "msg":1
+        }),
+        success: function (response) {
+            var c = response.t
+            $("#count").html(c)
+        },
+        dataType: "json"
+    });
+    e.setAttribute("msg",1)
+    e.classList.add("active")
+    }
+}
 
 //展开二级回复
 function collapseComments(e) {

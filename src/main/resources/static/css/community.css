@@ -21,7 +21,8 @@
 }
 .menu{
     color: #999;
-    margin-top: 9px
+    margin-top: 9px;
+    margin-bottom: 3px;
 }
 .menu .icon{
     margin-right: 6px;
@@ -48,4 +49,9 @@
 }
 .sub-comments .btn{
     margin: 10px 0;
+}
+.agree{
+    border-radius: 5px;
+    border: 1px solid #eee;
+    padding: 4px;
 }

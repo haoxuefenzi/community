@@ -61,6 +61,11 @@ public class CommentService {
         }
     }
 
+    public Comment selectById(Long id){
+        Comment comment = commentMapper.selectByPrimaryKey(id);
+        return comment;
+    }
+
     public List<CommentDto> listByTargetId(Long id, CommentTypeEnum type) {
         CommentExample example = new CommentExample();
         example.createCriteria()
