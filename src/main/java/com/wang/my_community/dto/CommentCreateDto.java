@@ -7,6 +7,7 @@ public class CommentCreateDto {
     private Long parentId;
     private String content;
     private Integer type;
-    private Long id;
+    private Long getterId;
     private int msg;
+    private Long setterId;
 }

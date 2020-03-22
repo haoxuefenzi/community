@@ -15,25 +15,39 @@
 <div class="container-fluid" style="background-color: white; margin: 45px;">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-
             <h2><span th:text="${sectionName}"></span></h2>
             <hr>
-
-            <div class="media" th:each="questionDto : ${paginationDto.questionDtos}">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" th:src="${questionDto.user.avatarUrl}">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">
-                        <a th:href="@{'/question/'+${questionDto.id}}" th:text="${questionDto.title}"></a>
-                    </h4>
-                    <span th:text="${questionDto.description}"></span> <br>
-                    <span class="text-desc"> <span th:text="${questionDto.commentCount}"></span>个回复 • <span th:text="${questionDto.viewCount}"></span> 次浏览 • <span th:text="${#dates.format(questionDto.gmtCreate,'yyyy-MM-dd HH-mm')}"></span></span>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='questions'}">
+                <div class="media" th:each="questionDto : ${paginationDto.data}">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object" th:src="${questionDto.user.avatarUrl}">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a th:href="@{'/question/'+${questionDto.id}}" th:text="${questionDto.title}"></a>
+                        </h4>
+                        <span th:text="${questionDto.description}"></span> <br>
+                        <span class="text-desc"> <span th:text="${questionDto.commentCount}"></span>个回复 • <span th:text="${questionDto.viewCount}"></span> 次浏览 • <span th:text="${#dates.format(questionDto.gmtCreate,'yyyy-MM-dd HH:mm')}"></span></span>
+                    </div>
                 </div>
             </div>
-            <nav aria-label="Page navigation">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='replies'}">
+                <div class="media" th:each="notification : ${paginationDto.data}">
+                    <div class="media-body" style="padding-bottom: 10px">
+                        <h4 class="media-heading">
+                            <span th:text="${notification.notifierName+' '+notification.typeName}"></span>
+                            <a th:href="@{'/notification/'+${notification.id}}" th:text="${notification.outerTitle}"></a>
+                            <span class="label label-danger" th:if="${notification.status==0}">未读</span>
+                        </h4>
+                    </div>
+                    <span class="text-desc"><span th:text="${#dates.format(notification.gmtCreate,'yyyy-MM-dd HH:mm')}"></span></span>
+                    <hr style="margin-top: 10px;">
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <!--                     th:if="paginationDto.showFirstpage"-->
                     <li>
@@ -64,17 +78,14 @@
                     </li>
                 </ul>
             </nav>
+            </div>
         </div>
-
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
             <div class="list-group section">
                 <a href="/profile/questions" th:class="${section=='questions'}?'active list-group-item':'list-group-item'">我的问题</a>
                 <a href="/profile/replies" th:class="${section=='replies'}?'active list-group-item':'list-group-item'">
-                    最新回复 <span class="badge">10</span>
+                    最新回复 <span class="badge" th:text="${session.unreadCount}"></span>
                 </a>
-                <a href="#" class="list-group-item">Morbi leo risus</a>
-                <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-                <a href="#" class="list-group-item">Vestibulum at eros</a>
             </div>
         </div>
     </div>

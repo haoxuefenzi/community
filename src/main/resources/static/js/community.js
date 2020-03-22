@@ -43,7 +43,8 @@ function comment2target(targetId,type,content) {
 }
 
 function like(e) {
-    var id = e.getAttribute("data-id")
+    var getterId = e.getAttribute("data-getterId")
+    var setterId = e.getAttribute("data-setterId")
 
     if (e.getAttribute("msg")==1){
        $.ajax({
@@ -51,8 +52,9 @@ function like(e) {
            contentType: "application/json",
            url: "/comment",
            data: JSON.stringify({
-               "id": id,
-               "msg":0
+               "getterId": getterId,
+               "msg":0,
+               "setterId":setterId
            }),
            success: function (response) {
                var c = response.t
@@ -68,8 +70,9 @@ function like(e) {
         contentType: "application/json",
         url: "/comment",
         data: JSON.stringify({
-            "id": id,
-            "msg":1
+            "getterId": getterId,
+            "msg":1,
+            "setterId":setterId
         }),
         success: function (response) {
             var c = response.t
@@ -142,6 +145,16 @@ function collapseComments(e) {
 
            })
 
+       }
    }
 }
+function selectTag(value) {
+    var pre = $("#tag").val();
+    if (pre.indexOf(value)==-1){
+        if (pre){
+            $("#tag").val(pre+','+value)
+        }else {
+            $("#tag").val(value)
+        }
+    }
 }

@@ -15,9 +15,11 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -50,7 +52,7 @@ public class QuestionService {
            questionDto.setUser(user);
            questionDtos.add(questionDto);
         }
-        paginationDto.setQuestionDtos(questionDtos);
+        paginationDto.setData(questionDtos);
         return paginationDto;
     }
 
@@ -75,7 +77,7 @@ public class QuestionService {
             questionDto.setUser(user);
             questionDtos.add(questionDto);
         }
-        paginationDto.setQuestionDtos(questionDtos);
+        paginationDto.setData(questionDtos);
         return paginationDto;
     }
 
@@ -123,5 +125,23 @@ public class QuestionService {
         question.setViewCount(1);
         questionExtMapper.incView(question);
 
+    }
+
+    public List<QuestionDto> selectRelated(QuestionDto questionDto) {
+        if (StringUtils.isEmpty(questionDto.getTag())){
+            return new ArrayList<>();
+        }
+        String replace = StringUtils.replace(questionDto.getTag(), ",", "|");
+        Question question = new Question();
+        question.setId(questionDto.getId());
+        question.setTag(replace);
+
+        List<Question> questions = questionExtMapper.selectRelated(question);
+        List<QuestionDto> collect = questions.stream().map(q -> {
+            QuestionDto queryDto = new QuestionDto();
+            BeanUtils.copyProperties(q, queryDto);
+            return queryDto;
+        }).collect(Collectors.toList());
+        return collect;
     }
 }

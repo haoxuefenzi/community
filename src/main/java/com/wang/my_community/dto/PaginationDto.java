@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class PaginationDto {
-    private List<QuestionDto> questionDtos;
+public class PaginationDto<T> {
+    private List<T> data;
     private List<Integer> pages = new ArrayList<>();
     private boolean showNext;
     private boolean showPrevious;

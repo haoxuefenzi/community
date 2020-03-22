@@ -55,3 +55,12 @@
     border: 1px solid #eee;
     padding: 4px;
 }
+/*.question-related{*/
+/*    padding-left: 0;*/
+/*    line-height: 30px;*/
+/*    list-style: none;*/
+/*}*/
+.label-display{
+    margin-right: 5px;
+    padding: 9px;
+}

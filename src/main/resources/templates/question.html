@@ -34,17 +34,16 @@
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 <!--                标签-->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <span class="label label-info" style="margin-right: 5px" th:each="tag : ${question.tag.split(',')}">
+                    <span class="label label-info" style="margin-right: 5px; padding: 9px" th:each="tag : ${question.tag.split(',')}">
                         <span class="glyphicon glyphicon-tag"></span>
-                        <span class="label label-info" th:text="${tag}"></span>
+                        <span class="label label-info" th:text="${tag}" style="font-size: 11px"></span>
                     </span>
                 </div>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <a th:href="@{'/publish/'+${question.id}}" style="color: #999">
+                <a th:href="@{'/publish/'+${question.id}}" style="color: #999" th:if="${session.user!=null&&session.user.id==question.creator}">
                     <div class="pull-right">编辑</div>
                     <span class="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
                 </a>
-                </span>
             </div>
             <!--评论-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -65,7 +64,7 @@
                             </h5>
                             <div style="margin-top: 14px" th:text="${commentDto.content}"></div>
                             <div class="menu" style="margin-bottom: 3px;">
-                                <span class="agree icon" id="active" th:data-id="${commentDto.id}" style="border-radius: 5px; border: 1px solid #eee; padding: 4px" onclick="like(this)">
+                                <span class="agree icon" id="active" th:getter-id="${commentDto.id}" th:setter-id="${session.user.id}" style="border-radius: 5px; border: 1px solid #eee; padding: 4px" onclick="like(this)">
                                     <span class="glyphicon glyphicon-thumbs-up"></span>
                                     <span th:text="${commentDto.likeCount}" id="count"></span>
                                 </span>
@@ -137,9 +136,19 @@
                     </div>
                 </div>
             </div>
-            <hr class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4>冠军之刃</h4>
+                <img src="/img/zed.png" class="img-thumbnail" style="width: 100%">
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4>相关问题</h4>
+<!--                ul>li+tab -->
+                <ul style="padding-left: 0; list-style: none; line-height: 30px">
+                    <li th:each="related:${relatedQuestions}">
+                        <a th:href="@{'/question/'+${related.id}}" th:text="${related.title}"></a>
+                    </li>
+                </ul>
             </div>
             </hr>
         </div>

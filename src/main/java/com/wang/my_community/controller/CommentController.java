@@ -4,10 +4,13 @@ import com.wang.my_community.dto.CommentCreateDto;
 import com.wang.my_community.dto.CommentDto;
 import com.wang.my_community.dto.ResultDto;
 import com.wang.my_community.enums.CommentTypeEnum;
+import com.wang.my_community.enums.NotificationTypeEnum;
+import com.wang.my_community.enums.NotificationEnum;
 import com.wang.my_community.excption.CustomizeErrorCode;
 import com.wang.my_community.mapper.CommentExtMapper;
-import com.wang.my_community.mapper.CommentMapper;
+import com.wang.my_community.mapper.NotificationMapper;
 import com.wang.my_community.model.Comment;
+import com.wang.my_community.model.Notification;
 import com.wang.my_community.model.User;
 import com.wang.my_community.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,22 +28,34 @@ public class CommentController {
     private CommentService commentService;
     @Autowired
     private CommentExtMapper commentExtMapper;
+    @Autowired
+    private NotificationMapper notificationMapper;
 
 
     @ResponseBody
     @RequestMapping(value = "/comment",method = RequestMethod.POST)
     public ResultDto<Long> post(@RequestBody CommentCreateDto commentCreateDto,
                        HttpServletRequest request) {
-        if (commentCreateDto.getId() != null&&commentCreateDto.getMsg()==1){
-            Comment comment = commentService.selectById(commentCreateDto.getId());
+        if (commentCreateDto.getGetterId() != null&&commentCreateDto.getMsg()==1){
+            Comment comment = commentService.selectById(commentCreateDto.getGetterId());
             comment.setLikeCount(1L);
             commentExtMapper.incLikeCount(comment);
-            return ResultDto.okOf(commentService.selectById(commentCreateDto.getId()).getLikeCount());
-        } else if (commentCreateDto.getId() != null&&commentCreateDto.getMsg()==0){
-            Comment comment = commentService.selectById(commentCreateDto.getId());
+
+            Notification notification = new Notification();
+            notification.setGmtCreate(System.currentTimeMillis());
+            notification.setType(NotificationTypeEnum.GET_LIKE.getType());
+            notification.setOuterId(comment.getParentId());
+            notification.setNotifier(commentCreateDto.getSetterId());
+            notification.setStatus(NotificationEnum.UNREAD.getStatus());
+            notification.setReceiver(comment.getCommentator());
+            notificationMapper.insert(notification);
+
+            return ResultDto.okOf(commentService.selectById(commentCreateDto.getGetterId()).getLikeCount());
+        } else if (commentCreateDto.getGetterId() != null&&commentCreateDto.getMsg()==0){
+            Comment comment = commentService.selectById(commentCreateDto.getGetterId());
             comment.setLikeCount(1L);
             commentExtMapper.decLikeCount(comment);
-            return ResultDto.okOf(commentService.selectById(commentCreateDto.getId()).getLikeCount());
+            return ResultDto.okOf(commentService.selectById(commentCreateDto.getGetterId()).getLikeCount());
         }else {
             User user = (User) request.getSession().getAttribute("user");
             if (user == null) {
@@ -57,7 +72,7 @@ public class CommentController {
             comment.setType(commentCreateDto.getType());
             comment.setCommentator(user.getId());
             comment.setLikeCount(0L);//加一个L就转成Long
-            commentService.insert(comment);
+            commentService.insert(comment,user);
             return ResultDto.okOf();
         }
     }

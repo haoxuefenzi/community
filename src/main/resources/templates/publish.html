@@ -11,6 +11,8 @@
 <!--    要先导入js-->
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/community.js" type="application/javascript"></script>
+
 </head>
 <body style="background-color: #efefef">
 <div th:replace="navigation :: nav"></div>
@@ -32,7 +34,37 @@
                    </div>
                    <div class="form-group">
                        <label for="tag">输入标签</label>
-                       <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag" placeholder="输入标签...以逗号分隔">
+                       <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag"
+                              placeholder="输入标签...以逗号分隔">
+                       <div>
+                           <div>
+                               <ul class="nav nav-tabs" role="tablist">
+                                   <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">人物</a></li>
+                                   <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">游戏</a></li>
+                                   <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">语录</a></li>
+                               </ul>
+                               <div class="tab-content" style="margin-top: 8px">
+                                   <div role="tabpanel" class="tab-pane active" id="home">
+                                       <span class="label label-info" style="margin-right: 5px; padding: 9px" onclick="selectTag('炫神')">
+                                            <span class="glyphicon glyphicon-tag"></span>
+                                            <span class="label label-info" style="font-size: 11px">炫神</span>
+                                       </span>
+                                   </div>
+                                   <div role="tabpanel" class="tab-pane" id="profile">
+                                       <span class="label label-info" style="margin-right: 5px; padding: 9px" onclick="selectTag('lol')">
+                                            <span class="glyphicon glyphicon-tag"></span>
+                                            <span class="label label-info" style="font-size: 11px">lol</span>
+                                       </span>
+                                   </div>
+                                   <div role="tabpanel" class="tab-pane" id="messages">
+                                       <span class="label label-info" style="margin-right: 5px; padding: 9px" onclick="selectTag('芜湖~')">
+                                            <span class="glyphicon glyphicon-tag"></span>
+                                            <span class="label label-info" style="font-size: 11px">芜湖~</span>
+                                       </span>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
                    </div>
                     <span class="alert alert-danger" th:if="${error!=null}" th:text="${error}"></span>
                    <button type="submit" class="btn btn-success btn-publish" style="margin-bottom: 10px">发布</button>
