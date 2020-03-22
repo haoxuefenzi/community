@@ -42,46 +42,48 @@ function comment2target(targetId,type,content) {
     });
 }
 
-function like(e) {
-    var getterId = e.getAttribute("data-getterId")
+function myLike(e) {
+    var getterId = e.getAttribute("getter-id")
     var setterId = e.getAttribute("data-setterId")
+    console.log(getterId)
+    console.log(setterId)
 
     if (e.getAttribute("msg")==1){
-       $.ajax({
-           type: "POST",
-           contentType: "application/json",
-           url: "/comment",
-           data: JSON.stringify({
-               "getterId": getterId,
-               "msg":0,
-               "setterId":setterId
-           }),
-           success: function (response) {
-               var c = response.t
-               $("#count").html(c)
-           },
-           dataType: "json"
-       });
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/comment",
+            data: JSON.stringify({
+                "getterId": getterId,
+                "msg":0,
+                "setterId":setterId
+            }),
+            success: function (response) {
+                var c = response.t
+                $("#count").html(c)
+            },
+            dataType: "json"
+        });
         e.setAttribute("msg",0)
         e.classList.remove("active");
-   }else {
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: "/comment",
-        data: JSON.stringify({
-            "getterId": getterId,
-            "msg":1,
-            "setterId":setterId
-        }),
-        success: function (response) {
-            var c = response.t
-            $("#count").html(c)
-        },
-        dataType: "json"
-    });
-    e.setAttribute("msg",1)
-    e.classList.add("active")
+    }else {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/comment",
+            data: JSON.stringify({
+                "getterId": getterId,
+                "msg":1,
+                "setterId":setterId
+            }),
+            success: function (response) {
+                var c = response.t
+                $("#count").html(c)
+            },
+            dataType: "json"
+        });
+        e.setAttribute("msg",1)
+        e.classList.add("active")
     }
 }
 
@@ -92,61 +94,61 @@ function collapseComments(e) {
     // comments.toggleClass("in")
     // $("#active").toggleClass("active")
     //获取
-   var collapse = e.getAttribute("data-collapse");
-   if (collapse){
-       //折叠二级评论
-       comments.removeClass("in");
-       e.removeAttribute("data-collapse");
-       e.classList.remove("active");
-   }else {
-       var subCommentContainer = $("#commentDao-"+id);
-       if (subCommentContainer.children().length!==1){
-           //展开二级评论
-           comments.addClass("in");
-           //标记二级评论的展开状态
-           e.setAttribute("data-collapse","in");
-           e.classList.add("active");
-       }else {
-           $.getJSON("/comment/"+id,function (data) {
-               $.each(data.t.reverse(), function (index, commentDto) {
-                   var mediaLeftElement = $("<div/>", {
-                       "class": "media-left"
-                   }).append($("<img/>", {
-                       "class": "media-object img-rounded",
-                       "src": commentDto.user.avatarUrl
-                   }));
-                   var mediaBodyElement = $("<div/>", {
-                       "class": "media-body"
-                   }).append($("<h5/>", {
-                       "class": "media-heading",
-                       "html": commentDto.user.name
-                   })).append($("<div/>", {
-                       "style":"margin-top: 14px",
-                       "html": commentDto.content
-                   })).append($("<span/>", {
-                       "class": "pull-right",
-                       "style": "color: #999",
-                       "html": moment(commentDto.gmtCreate).format('YYYY-MM-DD h:mm')
-                   }));
-                   var mediaElement = $("<div/>", {
-                       "class": "media"
-                   }).append(mediaLeftElement)
-                       .append(mediaBodyElement);
-                   var commentElement = $("<div/>", {
-                       "class": "col-lg-12 col-md-12 col-sm-12 col-xs-12 comment"
-                   }).append(mediaElement);
-                   subCommentContainer.prepend(commentElement);
-                    });
-               //展开二级评论
-               comments.addClass("in");
-               //标记二级评论的展开状态
-               e.setAttribute("data-collapse", "in");
-               e.classList.add("active");
+    var collapse = e.getAttribute("data-collapse");
+    if (collapse){
+        //折叠二级评论
+        comments.removeClass("in");
+        e.removeAttribute("data-collapse");
+        e.classList.remove("active");
+    }else {
+        var subCommentContainer = $("#commentDao-"+id);
+        if (subCommentContainer.children().length!==1){
+            //展开二级评论
+            comments.addClass("in");
+            //标记二级评论的展开状态
+            e.setAttribute("data-collapse","in");
+            e.classList.add("active");
+        }else {
+            $.getJSON("/comment/"+id,function (data) {
+                $.each(data.t.reverse(), function (index, commentDto) {
+                    var mediaLeftElement = $("<div/>", {
+                        "class": "media-left"
+                    }).append($("<img/>", {
+                        "class": "media-object img-rounded",
+                        "src": commentDto.user.avatarUrl
+                    }));
+                    var mediaBodyElement = $("<div/>", {
+                        "class": "media-body"
+                    }).append($("<h5/>", {
+                        "class": "media-heading",
+                        "html": commentDto.user.name
+                    })).append($("<div/>", {
+                        "style":"margin-top: 14px",
+                        "html": commentDto.content
+                    })).append($("<span/>", {
+                        "class": "pull-right",
+                        "style": "color: #999",
+                        "html": moment(commentDto.gmtCreate).format('YYYY-MM-DD h:mm')
+                    }));
+                    var mediaElement = $("<div/>", {
+                        "class": "media"
+                    }).append(mediaLeftElement)
+                        .append(mediaBodyElement);
+                    var commentElement = $("<div/>", {
+                        "class": "col-lg-12 col-md-12 col-sm-12 col-xs-12 comment"
+                    }).append(mediaElement);
+                    subCommentContainer.prepend(commentElement);
+                });
+                //展开二级评论
+                comments.addClass("in");
+                //标记二级评论的展开状态
+                e.setAttribute("data-collapse", "in");
+                e.classList.add("active");
 
-           })
+            })
 
-       }
-   }
+        }
+    }
 }
 function selectTag(value) {
     var pre = $("#tag").val();

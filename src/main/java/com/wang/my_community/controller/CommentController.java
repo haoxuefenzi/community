@@ -40,15 +40,15 @@ public class CommentController {
             Comment comment = commentService.selectById(commentCreateDto.getGetterId());
             comment.setLikeCount(1L);
             commentExtMapper.incLikeCount(comment);
-
-            Notification notification = new Notification();
-            notification.setGmtCreate(System.currentTimeMillis());
-            notification.setType(NotificationTypeEnum.GET_LIKE.getType());
-            notification.setOuterId(comment.getParentId());
-            notification.setNotifier(commentCreateDto.getSetterId());
-            notification.setStatus(NotificationEnum.UNREAD.getStatus());
-            notification.setReceiver(comment.getCommentator());
-            notificationMapper.insert(notification);
+//
+//            Notification notification = new Notification();
+//            notification.setGmtCreate(System.currentTimeMillis());
+//            notification.setType(NotificationTypeEnum.GET_LIKE.getType());
+//            notification.setOuterId(comment.getParentId());
+//            notification.setNotifier(commentCreateDto.getSetterId());
+//            notification.setStatus(NotificationEnum.UNREAD.getStatus());
+//            notification.setReceiver(comment.getCommentator());
+//            notificationMapper.insert(notification);
 
             return ResultDto.okOf(commentService.selectById(commentCreateDto.getGetterId()).getLikeCount());
         } else if (commentCreateDto.getGetterId() != null&&commentCreateDto.getMsg()==0){

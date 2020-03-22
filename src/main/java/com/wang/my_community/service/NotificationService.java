@@ -2,7 +2,6 @@ package com.wang.my_community.service;
 
 import com.wang.my_community.dto.NotificationDto;
 import com.wang.my_community.dto.PaginationDto;
-import com.wang.my_community.dto.QuestionDto;
 import com.wang.my_community.enums.NotificationEnum;
 import com.wang.my_community.enums.NotificationTypeEnum;
 import com.wang.my_community.mapper.NotificationMapper;
@@ -15,9 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class NotificationService {
