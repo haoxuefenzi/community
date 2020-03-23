@@ -3,6 +3,7 @@ package com.wang.my_community.service;
 
 import com.wang.my_community.dto.PaginationDto;
 import com.wang.my_community.dto.QuestionDto;
+import com.wang.my_community.dto.QuestionQueryDto;
 import com.wang.my_community.excption.CustomizeErrorCode;
 import com.wang.my_community.excption.CustomizeException;
 import com.wang.my_community.mapper.QuestionExtMapper;
@@ -31,17 +32,22 @@ public class QuestionService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
-    public PaginationDto list(Integer page, Integer size) {
-
-
+    public PaginationDto list(String search,Integer page, Integer size) {
+        if (!StringUtils.isEmpty(search)){
+            String searched = StringUtils.replace(search, " ", "|");
+        }
         PaginationDto paginationDto = new PaginationDto();
-        Integer totalCount = (int)questionMapper.countByExample(new QuestionExample());
+        QuestionQueryDto questionQueryDto = new QuestionQueryDto();
+        questionQueryDto.setSearch(search);
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDto);
         paginationDto.setPagination(totalCount, page, size);
 
         Integer offset = size * (page - 1);
         QuestionExample example = new QuestionExample();
         example.setOrderByClause("gmt_create desc");
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
+        questionQueryDto.setPage(offset);
+        questionQueryDto.setSize(size);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDto);
 
         List<QuestionDto> questionDtos = new ArrayList<>();
 

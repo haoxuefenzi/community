@@ -1,5 +1,6 @@
 package com.wang.my_community.mapper;
 
+import com.wang.my_community.dto.QuestionQueryDto;
 import com.wang.my_community.model.Question;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,8 @@ public interface QuestionExtMapper {
     int incCommentCount(Question record);
 
     List<Question> selectRelated(Question question);
+
+    Integer countBySearch(QuestionQueryDto questionQueryDto);
+
+    List<Question> selectBySearch(QuestionQueryDto questionQueryDto);
 }
