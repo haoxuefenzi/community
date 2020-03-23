@@ -1167,3 +1167,21 @@
 2020-03-23 14:13:52.470 DEBUG 10416 --- [http-nio-8080-exec-5] c.w.m.m.UserMapper.selectByPrimaryKey    : ==>  Preparing: select id, name, account_id, token, gmt_create, gmt_modified, node_id, avatar_url from community where id = ? 
 2020-03-23 14:13:52.470 DEBUG 10416 --- [http-nio-8080-exec-5] c.w.m.m.UserMapper.selectByPrimaryKey    : ==> Parameters: 19(Long)
 2020-03-23 14:13:52.471 DEBUG 10416 --- [http-nio-8080-exec-5] c.w.m.m.UserMapper.selectByPrimaryKey    : <==      Total: 1
+2020-03-23 18:56:46.169  INFO 1716 --- [main] c.w.my_community.MyCommunityApplication  : Starting MyCommunityApplication on DESKTOP-U5VLA1K with PID 1716 (D:\Users\35072\IdeaProjects\spring-framework-5.0.x\my_community\target\classes started by 35072 in D:\Users\35072\IdeaProjects\spring-framework-5.0.x\my_community)
+2020-03-23 18:56:46.172  INFO 1716 --- [main] c.w.my_community.MyCommunityApplication  : No active profile set, falling back to default profiles: default
+2020-03-23 18:56:48.204  INFO 1716 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-03-23 18:56:48.244  INFO 1716 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-03-23 18:56:48.244  INFO 1716 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.17]
+2020-03-23 18:56:48.823  INFO 1716 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-03-23 18:56:48.823  INFO 1716 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2616 ms
+2020-03-23 18:56:49.584  INFO 1716 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-03-23 18:56:49.718  INFO 1716 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2020-03-23 18:56:49.782  INFO 1716 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 5.2.4 by Boxfuse
+2020-03-23 18:56:49.783  INFO 1716 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-03-23 18:56:50.312  INFO 1716 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-03-23 18:56:50.315  INFO 1716 --- [main] o.f.c.internal.database.DatabaseFactory  : Database: jdbc:mysql://localhost:3306/mybatis (MySQL 5.7)
+2020-03-23 18:56:50.525  INFO 1716 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 13 migrations (execution time 00:00.049s)
+2020-03-23 18:56:50.536  INFO 1716 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `mybatis`: 13
+2020-03-23 18:56:50.537  INFO 1716 --- [main] o.f.core.internal.command.DbMigrate      : Schema `mybatis` is up to date. No migration necessary.
+2020-03-23 18:56:50.628  INFO 1716 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-03-23 18:56:50.631  INFO 1716 --- [main] c.w.my_community.MyCommunityApplication  : Started MyCommunityApplication in 4.916 seconds (JVM running for 6.108)
